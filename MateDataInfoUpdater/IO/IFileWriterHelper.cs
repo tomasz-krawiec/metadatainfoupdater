@@ -3,8 +3,8 @@ using MetadataInformationUpdater;
 
 namespace MateDataInfoUpdater.IO
 {
-    public interface IFileReaderHelper
+    public interface IFileWriterHelper
     {
-        List<DDRecord> ReadLines(string path);
+        void WriteToFile(string path, List<DDRecord> records);
     }
 }

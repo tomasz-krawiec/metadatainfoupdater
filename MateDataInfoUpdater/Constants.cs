@@ -2,6 +2,7 @@
 {
     public static class Constants
     {
+        public static string GridComponentName = "Grid";
         public static string InsertPrefix =
             "INSERT INTO ui.EnDtFieldDescription(ContextName, DataKey, BusinessDescription, FieldBehaviour, ComponentUniqueName) VALUES (";
 

@@ -50,16 +50,18 @@
     <Compile Include="ComponenUniqueNameMap.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DDRecord.cs" />
+    <Compile Include="DescriptionUpdatesLogic\DescriptionUpdater.cs" />
     <Compile Include="IO\ExcelFileHelper.cs" />
     <Compile Include="IO\IFileReaderHelper.cs" />
     <Compile Include="IdProvider.cs" />
+    <Compile Include="IO\IFileWriterHelper.cs" />
     <Compile Include="IO\JsonFileHelper.cs" />
     <Compile Include="IO\TxtFileHelper.cs" />
-    <Compile Include="MissingTableNameAndColumnNameResolver.cs" />
+    <Compile Include="DescriptionUpdatesLogic\MissingTableNameAndColumnNameResolver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlDatabaseReader.cs" />
-    <Compile Include="TextUtility.cs" />
+    <Compile Include="DbAccess\SqlDatabaseReader.cs" />
+    <Compile Include="Helper\TextUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

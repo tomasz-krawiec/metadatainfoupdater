@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using MateDataInfoUpdater.Helper;
 using MetadataInformationUpdater;
 
 namespace MateDataInfoUpdater.IO
 {
-    public class TxtFileHelper : IFileReaderHelper
+    public class TxtFileHelper : IFileReaderHelper, IFileWriterHelper
     {
         public List<DDRecord> ReadLines(string path)
         {
@@ -15,22 +14,22 @@ namespace MateDataInfoUpdater.IO
             var counter = 0;
             int i = 0;
             var result = new List<DDRecord>();
-            if(lines.Length<1)
+            if (lines.Length < 1)
                 return new List<DDRecord>();
             do
             {
-                var ddLine=lines[i++];
+                var ddLine = lines[i++];
                 while (!ddLine.Contains(Constants.CommandEnding))
                 {
-                    ddLine+= '\n' + lines[i++];
+                    ddLine += '\n' + lines[i++];
                 }
 
                 ddLine = ddLine.Trim().Replace(Constants.InsertPrefix, string.Empty);
                 ddLine = ddLine.Replace(Constants.CommandEnding, string.Empty);
                 ddLine = ddLine.Replace(Constants.DDSeparator, Constants.TempSeparator);
                 ddLine = ddLine.Replace(Constants.DDSeparator4, Constants.TempSeparator);
-                ddLine = ddLine.Replace(Constants.DDSeparator2, Constants.TempSeparator+Constants.NULLFragment);
-                ddLine = ddLine.Replace(Constants.DDSeparator5, Constants.TempSeparator+Constants.NULLFragment);
+                ddLine = ddLine.Replace(Constants.DDSeparator2, Constants.TempSeparator + Constants.NULLFragment);
+                ddLine = ddLine.Replace(Constants.DDSeparator5, Constants.TempSeparator + Constants.NULLFragment);
                 ddLine = ddLine.Replace(", N'", Constants.TempSeparator);
                 ddLine = ddLine.Replace(Constants.DDSeparator3, string.Empty).Trim('\'').Trim();
                 var tokens = ddLine.Split(Constants.TempSeparator.ToCharArray());
@@ -46,6 +45,22 @@ namespace MateDataInfoUpdater.IO
             } while (i < lines.Length);
 
             return result;
+        }
+
+        public void WriteToFile(string path, List<DDRecord> records)
+        {
+            using (StreamWriter outputFile = new System.IO.StreamWriter(path))
+            {
+                foreach (var resultDescription in records)
+                {
+                    outputFile.Write(
+                        $"{Constants.InsertPrefix}{TextUtility.GetFormattedText(resultDescription.ContextName)}" +
+                        $", {TextUtility.GetFormattedText(resultDescription.DataKey)}" +
+                        $", {TextUtility.GetFormattedText(resultDescription.BusinessDescription)}" +
+                        $", {TextUtility.GetFormattedText(resultDescription.FieldBehaviour)}" +
+                        $", {TextUtility.GetFormattedText(resultDescription.ComponentUniqueName)}{Constants.CommandEnding}" + System.Environment.NewLine);
+                }
+            }
         }
     }
 }
